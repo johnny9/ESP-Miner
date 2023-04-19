@@ -21,7 +21,7 @@
 #include "addr_from_stdin.h"
 #include "lwip/err.h"
 #include "lwip/sockets.h"
-
+#include "stratum_api.h"
 
 #if defined(CONFIG_EXAMPLE_IPV4)
 #define HOST_IP_ADDR CONFIG_EXAMPLE_IPV4_ADDR
@@ -168,6 +168,12 @@ static void tcp_client_task(void *pvParameters)
             char *line = recv_line(sock);
             // Error occurred during receiving
             ESP_LOGI(TAG, "Json: %s", line);
+            stratum_message parsed_message = parse_stratum_message(line);
+            if (parsed_message.method == STRATUM_UNKNOWN) {
+                ESP_LOGI(TAG, "UNKNOWN MESSAGE");
+            } else {
+                ESP_LOGI(TAG, "method: %s", parsed_message.method_str);
+            }
             free(line);
         }
 

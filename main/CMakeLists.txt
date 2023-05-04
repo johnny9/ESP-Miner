@@ -1,2 +1,2 @@
-idf_component_register(SRCS "work_queue.c" "tcp_client.c"
+idf_component_register(SRCS "work_queue.c" "miner.c"
                     INCLUDE_DIRS ".")

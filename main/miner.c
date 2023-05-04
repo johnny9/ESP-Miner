@@ -39,7 +39,7 @@ static const char *TAG = "stratum client";
 static work_queue g_queue;
 
 
-static void stratum_worker_task(void *pvParameters)
+static void mining_task(void *pvParameters)
 {
     int termination_flag = 0;
     while(true) {
@@ -63,7 +63,7 @@ static void stratum_worker_task(void *pvParameters)
     }
 }
 
-static void tcp_client_task(void *pvParameters)
+static void admin_task(void *pvParameters)
 {
     initialize_stratum_buffer();
     char host_ip[] = HOST_IP_ADDR;
@@ -154,6 +154,6 @@ void app_main(void)
 
     queue_init(&g_queue);
 
-    xTaskCreate(tcp_client_task, "tcp_client", 8192, NULL, 5, NULL);
-    xTaskCreate(stratum_worker_task, "miner", 8192, NULL, 5, NULL);
+    xTaskCreate(admin_task, "stratum admin", 8192, NULL, 5, NULL);
+    xTaskCreate(mining_task, "stratum miner", 8192, NULL, 5, NULL);
 }

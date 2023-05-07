@@ -36,9 +36,7 @@ ESP-Miner is bitcoin miner software designed to run on the ESP32. It mines on AS
      - check the BM1397 temperature
      - optimize the hashing frequency and core voltage for max efficiency
 
-## Hardware Required
 
-This example can be run on any commonly available ESP32 development board.
 
 ## Configure the project
 

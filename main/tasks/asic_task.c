@@ -49,15 +49,14 @@ void ASIC_task(void * pvParameters)
         memcpy(&job.ntime, &next_bm_job->ntime, 4);
         memcpy(&job.merkle4, next_bm_job->merkle_root + 28, 4);
         memcpy(job.midstate, next_bm_job->midstate, 32);
+
         if (active_jobs[job.job_id] != NULL) {
-            free(active_jobs[job.job_id]->jobid);
-            free(active_jobs[job.job_id]->extranonce2);
-            free(active_jobs[job.job_id]);
+            free_bm_job(active_jobs[job.job_id]);
         }
-       active_jobs[job.job_id] = next_bm_job;
-   
+        active_jobs[job.job_id] = next_bm_job;
+
         pthread_mutex_lock(&GLOBAL_STATE->valid_jobs_lock);
-       GLOBAL_STATE-> valid_jobs[job.job_id] = 1;
+        GLOBAL_STATE->valid_jobs[job.job_id] = 1;
         pthread_mutex_unlock(&GLOBAL_STATE->valid_jobs_lock);
 
         SERIAL_clear_buffer();
@@ -73,7 +72,7 @@ void ASIC_task(void * pvParameters)
             // Didn't find a solution, restart and try again
             continue;
         }
-        
+
         if(received != 9 || buf[0] != 0xAA || buf[1] != 0x55){
             ESP_LOGI(TAG, "Serial RX invalid %i", received);
             ESP_LOG_BUFFER_HEX(TAG, buf, received);

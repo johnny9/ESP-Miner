@@ -14,7 +14,8 @@ typedef enum {
     SCR_CONFIGURE,
     SCR_FIRMWARE_UPDATE,
     SCR_CONNECTION,
-    SCR_LOGO,
+    SCR_BITAXE_LOGO,
+    SCR_OSMU_LOGO,
     SCR_URLS,
     SCR_STATS,
     MAX_SCREENS,
@@ -25,10 +26,11 @@ typedef enum {
 #define SCR_CAROUSEL_START SCR_URLS
 #define SCR_CAROUSEL_END SCR_STATS
 
-extern const lv_img_dsc_t logo;
+extern const lv_img_dsc_t bitaxe_logo;
+extern const lv_img_dsc_t osmu_logo;
 
 static lv_obj_t * screens[MAX_SCREENS];
-static int delays_ms[MAX_SCREENS] = {0, 0, 0, 0, 0, 1000, 5000, 10000, 10000};
+static int delays_ms[MAX_SCREENS] = {0, 0, 0, 0, 0, 1000, 3000, 3000, 10000, 10000};
 
 static screen_t current_screen = -1;
 static int current_screen_time_ms;
@@ -181,11 +183,11 @@ static lv_obj_t * create_scr_connection(SystemModule * module) {
     return scr;
 }
 
-static lv_obj_t * create_scr_logo() {
+static lv_obj_t * create_scr_logo(const lv_img_dsc_t *logo) {
     lv_obj_t * scr = lv_obj_create(NULL);
 
     lv_obj_t *img = lv_img_create(scr);
-    lv_img_set_src(img, &logo);
+    lv_img_set_src(img, logo);
     lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
 
     return scr;
@@ -387,7 +389,8 @@ esp_err_t screen_start(void * pvParameters)
         screens[SCR_CONFIGURE] = create_scr_configure(module);
         screens[SCR_FIRMWARE_UPDATE] = create_scr_ota(module);
         screens[SCR_CONNECTION] = create_scr_connection(module);
-        screens[SCR_LOGO] = create_scr_logo();
+        screens[SCR_BITAXE_LOGO] = create_scr_logo(&bitaxe_logo);
+        screens[SCR_OSMU_LOGO] = create_scr_logo(&osmu_logo);
         screens[SCR_URLS] = create_scr_urls(module);
         screens[SCR_STATS] = create_scr_stats();
 

@@ -46,7 +46,7 @@
 //Test Power Consumption
 #define POWER_CONSUMPTION_TARGET_SUB_402 12     //watts
 #define POWER_CONSUMPTION_TARGET_402 5          //watts
-#define POWER_CONSUMPTION_TARGET_GAMMA 11       //watts
+#define POWER_CONSUMPTION_TARGET_GAMMA 19       //watts
 #define POWER_CONSUMPTION_MARGIN 3              //+/- watts
 
 static const char * TAG = "self_test";

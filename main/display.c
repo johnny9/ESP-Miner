@@ -36,6 +36,7 @@ static bool display_state_on = false;
 static lv_theme_t theme;
 static lv_style_t scr_style;
 
+
 extern const lv_font_t lv_font_portfolio_6x8;
 
 esp_err_t display_on(bool display_on);
@@ -166,6 +167,14 @@ esp_err_t display_init(void * pvParameters)
     };
 
     lv_disp_t * disp = lvgl_port_add_disp(&disp_cfg);
+     if (!disp) { // Check if disp is NULL
+        ESP_LOGE(TAG, "lvgl_port_add_disp failed!");
+        // Potential cleanup
+        // if (panel_handle) esp_lcd_panel_del(panel_handle);
+        // if (io_handle) esp_lcd_panel_io_del(io_handle);
+        return ESP_FAIL;
+    }
+
 
     if (esp_lcd_panel_init_err == ESP_OK) {
         if (lvgl_port_lock(0)) {
@@ -174,7 +183,7 @@ esp_err_t display_init(void * pvParameters)
             lv_style_set_bg_opa(&scr_style, LV_OPA_COVER);
 
             lv_theme_set_apply_cb(&theme, theme_apply);
-
+            
             lv_display_set_theme(disp, &theme);
             lvgl_port_unlock();
         }
@@ -184,7 +193,8 @@ esp_err_t display_init(void * pvParameters)
 
         GLOBAL_STATE->SYSTEM_MODULE.is_screen_active = true;
     } else {
-        ESP_LOGW(TAG, "No display found.");
+        ESP_LOGW(TAG, "No display found or panel init failed. Screen not active.");
+        GLOBAL_STATE->SYSTEM_MODULE.is_screen_active = false;
     }
 
     ESP_LOGI(TAG, "Display init success!");

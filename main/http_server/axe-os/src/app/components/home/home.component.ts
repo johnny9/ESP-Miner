@@ -18,7 +18,6 @@ export class HomeComponent {
 
   public info$!: Observable<ISystemInfo>;
   public stats$!: Observable<ISystemStatistics>;
-  public expectedHashRate$!: Observable<number | undefined>;
 
   public chartOptions: any;
   public dataLabel: number[] = [];
@@ -279,10 +278,6 @@ export class HomeComponent {
       shareReplay({ refCount: true, bufferSize: 1 })
     );
 
-    this.expectedHashRate$ = this.info$.pipe(map(info => {
-      return Math.floor(info.frequency * ((info.smallCoreCount * info.asicCount) / 1000))
-    }))
-
     this.quickLink$ = this.info$.pipe(
       map(info => {
         const url = info.isUsingFallbackStratum ? info.fallbackStratumURL : info.stratumURL;
@@ -324,5 +319,5 @@ export class HomeComponent {
     });
 
     return this.calculateAverage(efficiencies);
-  }  
+  }
 }

@@ -76,7 +76,7 @@ export class HomeComponent {
       this.chartOptions.plugins.legend.labels.color = textColor;
       this.chartOptions.scales.x.ticks.color = textColorSecondary;
       this.chartOptions.scales.x.grid.color = surfaceBorder;
-      this.chartOptions.scales.y.ticks.color = textColorSecondary;
+      this.chartOptions.scales.y.ticks.color = primaryColor;
       this.chartOptions.scales.y.grid.color = surfaceBorder;
       this.chartOptions.scales.y2.ticks.color = textColorSecondary;
       this.chartOptions.scales.y2.grid.color = surfaceBorder;
@@ -168,7 +168,7 @@ export class HomeComponent {
         },
         y: {
           ticks: {
-            color: textColorSecondary,
+            color: primaryColor,
             callback: (value: number) => HashSuffixPipe.transform(value)
           },
           grid: {

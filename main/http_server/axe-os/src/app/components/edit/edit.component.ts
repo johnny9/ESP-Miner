@@ -174,11 +174,6 @@ export class EditComponent implements OnInit, OnDestroy {
       });
   }
 
-  showWifiPassword: boolean = false;
-  toggleWifiPasswordVisibility() {
-    this.showWifiPassword = !this.showWifiPassword;
-  }
-
   disableOverheatMode() {
     this.form.patchValue({ overheat_mode: 0 });
     this.updateSystem();

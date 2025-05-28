@@ -109,7 +109,11 @@ export class SystemService {
   }
 
   public updateSystem(uri: string = '', update: any) {
-    return this.httpClient.patch(`${uri}/api/system`, update);
+    if (environment.production) {
+      return this.httpClient.patch(`${uri}/api/system`, update);
+    } else {
+      return of(true);
+    }
   }
 
 

@@ -175,7 +175,6 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   public updateSystem() {
-
     const form = this.form.getRawValue();
 
     if (form.stratumPassword === '*****') {
@@ -187,7 +186,9 @@ export class EditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           const successMessage = this.uri ? `Saved settings for ${this.uri}` : 'Saved settings';
-          this.toastr.warning('You must restart this device after saving for changes to take effect', 'Warning');
+          if (this.isRestartRequired) {
+            this.toastr.warning('You must restart this device after saving for changes to take effect', 'Warning');
+          }
           this.toastr.success(successMessage, 'Success!');
           this.savedChanges = true;
         },
@@ -280,5 +281,24 @@ export class EditComponent implements OnInit, OnDestroy {
     }
 
     return options;
+  }
+
+  get noRestartFields(): string[] {
+    return [
+      'displayTimeout',
+      'coreVoltage',
+      'frequency',
+      'autofanspeed',
+      'fanspeed',
+      'temptarget',
+      'overheat_mode',
+      'statsLimit',
+      'statsDuration'
+    ];
+  }
+
+  get isRestartRequired(): boolean {
+    return !! Object.entries(this.form.controls)
+      .filter(([field, control]) => control.dirty && !this.noRestartFields.includes(field)).length
   }
 }

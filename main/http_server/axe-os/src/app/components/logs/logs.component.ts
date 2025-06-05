@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { interval, map, Observable, shareReplay, startWith, Subscription, switchMap } from 'rxjs';
 import { SystemService } from 'src/app/services/system.service';
 import { WebsocketService } from 'src/app/services/web-socket.service';
@@ -23,6 +23,13 @@ export class LogsComponent implements OnDestroy, AfterViewChecked {
   public stopScroll: boolean = false;
 
   public isExpanded: boolean = false;
+
+  @HostListener('document:keydown.esc', ['$event'])
+  onEscKey(event: KeyboardEvent) {
+    if (this.isExpanded) {
+      this.isExpanded = false;
+    }
+  }
 
   constructor(
     private websocketService: WebsocketService,

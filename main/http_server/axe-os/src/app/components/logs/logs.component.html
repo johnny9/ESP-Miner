@@ -82,13 +82,24 @@
 
             <div *ngIf="showLogs" id="logs" #scrollContainer [ngClass]="{'is-expanded': isExpanded, 'mt-4': !isExpanded}">
                 <div *ngFor="let log of logs" [ngClass]="log.className">₿ {{log.text | ANSI}}</div>
-                <button pButton class="btn btn--icon absolute top-0 right-0"
-                    (click)="isExpanded = !isExpanded"
-                    pTooltip="Minimize Logs"
-                    tooltipPosition="left"
-                >
-                    <i class="pi pi-window-minimize"></i>
-                </button>
+
+                <div class="fixed top-0 right-0 flex gap-2 p-2 md:mr-4">
+                    <button pButton class="btn btn--icon"
+                        (click)="stopScroll = !stopScroll"
+                        pTooltip="{{stopScroll ? 'Start' : 'Stop'}} Scrolling"
+                        tooltipPosition="left"
+                    >
+                        <i class="pi pi-{{stopScroll ? 'play' : 'pause'}}-circle"></i>
+                    </button>
+
+                    <button pButton class="btn btn--icon"
+                        (click)="isExpanded = false"
+                        pTooltip="Minimize Logs"
+                        tooltipPosition="left"
+                    >
+                        <i class="pi pi-window-minimize"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

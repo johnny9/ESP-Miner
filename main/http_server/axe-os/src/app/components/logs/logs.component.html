@@ -80,35 +80,36 @@
                             placeholder="Case-sensitive filter" id="filter" formControlName="filter"
                         />
 
-                        <button pButton class="btn btn--icon ml-auto"
+                        <p-button
+                            icon="pi pi-window-maximize"
+                            pp-button
                             (click)="isExpanded = !isExpanded"
+                            class="ml-auto"
                             pTooltip="Maximize Logs"
                             tooltipPosition="left"
-                            *ngIf="showLogs"
-                        >
-                            <i class="pi pi-window-maximize"></i>
-                        </button>
+                            *ngIf="showLogs">
+                        </p-button>
                     </div>
 
                     <div *ngIf="showLogs" id="logs" #scrollContainer [ngClass]="{'is-expanded': isExpanded, 'mt-4': !isExpanded}">
                         <div *ngFor="let log of logs" [ngClass]="log.className">₿ {{log.text | ANSI}}</div>
 
                         <div class="fixed top-0 right-0 flex gap-2 p-2 md:mr-4">
-                            <button pButton class="btn btn--icon"
+                            <p-button
+                                icon="pi pi-{{stopScroll ? 'play' : 'pause'}}-circle"
+                                pp-button
                                 (click)="stopScroll = !stopScroll"
                                 pTooltip="{{stopScroll ? 'Start' : 'Stop'}} Scrolling"
-                                tooltipPosition="left"
-                            >
-                                <i class="pi pi-{{stopScroll ? 'play' : 'pause'}}-circle"></i>
-                            </button>
+                                tooltipPosition="left">
+                            </p-button>
 
-                            <button pButton class="btn btn--icon"
+                            <p-button
+                                icon="pi pi-window-minimize"
+                                pp-button
                                 (click)="isExpanded = false"
                                 pTooltip="Minimize Logs"
-                                tooltipPosition="left"
-                            >
-                                <i class="pi pi-window-minimize"></i>
-                            </button>
+                                tooltipPosition="left">
+                            </p-button>
                         </div>
                     </div>
                 </form>

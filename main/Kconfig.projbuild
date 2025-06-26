@@ -70,6 +70,12 @@ menu "Stratum Configuration"
         help
             The stratum server port to connect to.
 
+    config EXTRANONCE_SUBSCRIBE
+        bool "Pool extranonce subscribe"
+        default n
+        help
+            Enable stratum extranonce subscribe.
+
     config FALLBACK_STRATUM_URL
         string "Fallback Stratum Address"
         default "solo.ckpool.org"
@@ -82,6 +88,12 @@ menu "Stratum Configuration"
         default 3333
         help
             The stratum server port to connect to if the primary fails.
+
+    config FALLBACK_EXTRANONCE_SUBSCRIBE
+        bool "Fallback pool extranonce subscribe"
+        default n
+        help
+            Enable fallback pool extranonce subscribe.
 
     config STRATUM_USER
         string "Stratum username"
@@ -113,5 +125,12 @@ menu "Stratum Configuration"
         default 1000
         help
             A starting difficulty to use with the pool.
+
+    config FALLBACK_STRATUM_DIFFICULTY
+        int "Fallback stratum default difficulty"
+        range 0 4294967296
+        default 1000
+        help
+            A starting difficulty to use with the fallback pool.
 
 endmenu

@@ -19,6 +19,7 @@ typedef enum
     MINING_NOTIFY,
     MINING_SET_DIFFICULTY,
     MINING_SET_VERSION_MASK,
+    MINING_SET_EXTRANONCE,
     STRATUM_RESULT,
     STRATUM_RESULT_SETUP,
     STRATUM_RESULT_VERSION_MASK,
@@ -86,6 +87,8 @@ int STRATUM_V1_authorize(int socket, int send_uid, const char *username, const c
 int STRATUM_V1_configure_version_rolling(int socket, int send_uid, uint32_t * version_mask);
 
 int STRATUM_V1_suggest_difficulty(int socket, int send_uid, uint32_t difficulty);
+
+int STRATUM_V1_extranonce_subscribe(int socket, int send_uid);
 
 int STRATUM_V1_submit_share(int socket, int send_uid, const char *username, const char *jobid,
                             const char *extranonce_2, const uint32_t ntime, const uint32_t nonce,

@@ -53,11 +53,15 @@ typedef struct
     char * fallback_pool_url;
     uint16_t pool_port;
     uint16_t fallback_pool_port;
-    double response_time;
     char * pool_user;
     char * fallback_pool_user;
     char * pool_pass;
     char * fallback_pool_pass;
+    uint16_t pool_difficulty;
+    uint16_t fallback_pool_difficulty;
+    bool pool_extranonce_subscribe;
+    bool fallback_pool_extranonce_subscribe;
+    double response_time;
     bool is_using_fallback;
     uint16_t overheat_mode;
     uint16_t power_fault;

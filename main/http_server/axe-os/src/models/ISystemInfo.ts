@@ -1,5 +1,3 @@
-import { eASICModel } from './enum/eASICModel';
-
 interface ISharesRejectedStat {
     message: string;
     count: number;
@@ -35,7 +33,7 @@ export interface ISystemInfo {
     uptimeSeconds: number,
     asicCount: number,
     smallCoreCount: number,
-    ASICModel: eASICModel,
+    ASICModel: string,
     stratumURL: string,
     stratumPort: number,
     responseTime: number,

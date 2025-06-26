@@ -1,23 +1,26 @@
 #loading {
     background-color: var(--maskbg);
     left: calc(4rem + var(--sidebar-width));
-    right: 2rem;
+
     bottom: 0;
-    top: 7rem;
-    padding-bottom: 7rem;
     position: fixed;
     z-index: 99999999999999999999;
 
-    ::ng-deep .layout-static-inactive & {
-        left: 2rem;
+    --padding: 2rem;
+
+    @media (max-width: 768px) {
+        --padding: 1rem;
     }
 
-    @media (max-width: 991px) {
-        left: 2rem;
-    }
-    @media (max-width: 768px) {
-        left: 1rem;
-        right: 1rem;
+    left: var(--padding);
+    right: var(--padding);
+    top: calc(var(--topbar-height) + var(--padding));
+    padding-bottom: calc(var(--topbar-height) + var(--padding));
+
+    ::ng-deep .menuIsVisible & {
+        @media screen and (min-width: 992px) {
+            left: calc(var(--padding) * 2 + var(--sidebar-width));
+        }
     }
 }
 

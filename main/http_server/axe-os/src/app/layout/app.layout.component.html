@@ -12,6 +12,6 @@
 
     <div class="layout-mask"></div>
     <app-loading
-        [ngClass]="{'layout-static-inactive': layoutService.state.staticMenuDesktopInactive}"
+        [ngClass]="{'menuIsVisible': !layoutService.state.staticMenuDesktopInactive}"
     ></app-loading>
 </div>

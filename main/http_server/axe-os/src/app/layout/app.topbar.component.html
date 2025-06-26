@@ -1,15 +1,45 @@
 <div class="layout-topbar">
-    <a class="flex-order-2 lg:flex-order-0" routerLink="">
+    <a routerLink="">
         <img src="/assets/images/AxeOS.svg" width="120" height="54" class="block" alt="AxeOS" />
     </a>
 
-    <button *ngIf="!isAPMode" #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <button *ngIf="!isAPMode" #menubutton class="p-link layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
     </button>
 
+    <ng-container *ngIf="info$ | async as info">
+        <span class="text-500 select-none absolute left-0 bottom-0 ml-6 md:ml-7 mb-1"
+            tooltipPosition="bottom"
+            pTooltip="Hostname"
+        >{{info.hostname}}</span>
 
-    <div class="layout-topbar-menu">
-
-    </div>
-
+        <ul *ngIf="isDesktop()" class="hidden lg:flex ml-auto list-none p-0 gap-4">
+            <li>
+                <a routerLink="network"
+                    class="block py-2"
+                    tooltipPosition="bottom"
+                    pTooltip="WiFi RSSI: {{info.wifiRSSI}} dBm"
+                >
+                    <figure class="wifi-icon"
+                        [ngClass]="{
+                            'wifi-icon--excellent': info.wifiRSSI > -50,
+                            'wifi-icon--good': info.wifiRSSI <= -50 && info.wifiRSSI > -60,
+                            'wifi-icon--fair': info.wifiRSSI <= -60 && info.wifiRSSI > -70,
+                            'wifi-icon--weak': info.wifiRSSI <= -70
+                        }">
+                        <i *ngFor="let item of [1,2,3,4]"></i>
+                    </figure>
+                </a>
+            </li>
+            <li>
+                <a class="block py-2 text-white cursor-pointer"
+                    tooltipPosition="bottom"
+                    pTooltip="Restart"
+                    (click)="restart()"
+                >
+                    <i class="pi pi-refresh text-xl block"></i>
+                </a>
+            </li>
+        </ul>
+    </ng-container>
 </div>

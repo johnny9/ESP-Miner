@@ -235,6 +235,7 @@ export class ThemeConfigComponent implements OnInit {
           // Apply accent colors if they exist
           if (settings.accentColors) {
             this.applyThemeColors(settings.accentColors);
+            this.currentColor = settings.accentColors['--primary-color'];
           }
         }
       },

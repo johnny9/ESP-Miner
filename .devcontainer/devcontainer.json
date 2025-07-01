@@ -3,7 +3,7 @@
 {
 	"name": "ESP-IDF QEMU",
 	"build": {
-		"dockerfile": "Dockerfile.qemu"
+		"dockerfile": "Dockerfile"
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

@@ -12,12 +12,11 @@ permissions:
   packages: write
 
 jobs:
-  build-and-push:
+  build-base:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        variant: [base, qemu]
-
+    outputs:
+      base_tags: ${{ steps.meta.outputs.tags }}
+      base_labels: ${{ steps.meta.outputs.labels }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,21 +28,54 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata for base image
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: |
-            ghcr.io/${{ github.repository }}/devcontainer-${{ matrix.variant }}
+          images: ghcr.io/${{ github.repository }}/devcontainer
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
             type=sha,format=long,prefix=sha-
 
-      - name: Build and push ${{ matrix.variant }} devcontainer image
+      - name: Build and push base image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: .devcontainer/Dockerfile.${{ matrix.variant == 'base' && 'base' || 'qemu' }}
+          file: .devcontainer/Dockerfile
+          target: base
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-qemu:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for QEMU image
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/devcontainer-qemu
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+            type=sha,format=long,prefix=sha-
+
+      - name: Build and push QEMU image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .devcontainer/Dockerfile
+          target: qemu
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

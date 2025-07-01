@@ -1,0 +1,26 @@
+# Base image with ESP-IDF and common dependencies
+FROM espressif/idf:v5.4.1
+
+ARG DEBIAN_FRONTEND=nointeractive
+
+# Install common dependencies
+RUN apt-get update \
+  && apt install -y -q \
+  cmake \
+  git \
+  hwdata \
+  && rm -rf /var/lib/apt/lists/*
+
+# Node.js and npm (v20 is required)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+  && apt-get install -y nodejs
+
+# Common environment setup
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+# Initialize ESP-IDF in bashrc
+RUN echo "source /opt/esp/idf/export.sh > /dev/null 2>&1" >> ~/.bashrc
+
+ENTRYPOINT [ "/opt/esp/entrypoint.sh" ]
+CMD ["/bin/bash"]

@@ -1,25 +1,27 @@
 name: Publish Test Results
 on:
   workflow_run:
-    workflows: ["Unit Tests"]
+    workflows: ["Unit Test"]
     types: [completed]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion != 'cancelled' }}
-
     steps:
-      - name: Download all artifacts
-        run: |
-          mkdir artifacts
-          cd artifacts
-          gh api "${{ github.event.workflow_run.artifacts_url }}" \
-            -q '.artifacts[] | [.name, .archive_download_url] | @tsv' \
-          | while IFS=$'\t' read name url; do
-              gh api "$url" --jq .archive_download_url > "$name.zip"
-              unzip -q "$name.zip" -d "$name"
-            done
+      - name: Download event file
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: event-file
+          path: artifacts/event-file
+
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: test-results
+          path: artifacts/test-results
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1

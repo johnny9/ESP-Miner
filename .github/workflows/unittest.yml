@@ -28,7 +28,7 @@ jobs:
     - name: Inspect log
       run: cat report.xml
     - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
           files: report.xml

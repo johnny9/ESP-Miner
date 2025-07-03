@@ -1,15 +1,15 @@
-name: Test Results
+name: Unit Test Results
 
 on:
   workflow_run:
-    workflows: ["Unit Tests"]
+    workflows: ["Unit Test"]
     types:
       - completed
 permissions: {}
 
 jobs:
   test-results:
-    name: Test Results
+    name: Unit Test Results
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion != 'skipped'
 

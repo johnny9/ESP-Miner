@@ -181,3 +181,8 @@ TEST_CASE("Parse stratum result alternative error", "[stratum]")
     TEST_ASSERT_FALSE(stratum_api_v1_message.response_success);
     TEST_ASSERT_EQUAL_STRING("Above target 2", stratum_api_v1_message.error_str);
 }
+
+EST_CASE("Auto fail", "[stratum]")
+{
+    TEST_FAIL();
+}

@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Unit Test
 on: [push, pull_request]
 
 permissions:
@@ -45,5 +45,6 @@ jobs:
           FAILURES=$(grep -oP 'failures="\K[0-9]+' report.xml || echo 0)
           if [ "$FAILURES" -gt 0 ]; then
             echo "::error ::Detected $FAILURES test failures."
+            cat report.xml
             exit 1
           fi
